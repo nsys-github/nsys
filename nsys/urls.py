@@ -18,5 +18,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('polls/', include('polls.urls')), #include() 関数は他の URLconf への参照することができます
+    path('master_mainte/', include('master_mainte.urls')),
+    path('contract/', include('contract.urls')),
     path('admin/', admin.site.urls),
 ]
