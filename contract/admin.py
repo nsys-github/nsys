@@ -20,10 +20,11 @@ def set_not_editable_item(request, obj):
         obj.upd_cnt += 1
     return obj
 
+
+#Inline見積内訳テーブル
 class TQuotationItemTable(admin.TabularInline):
     model = t_quotation_item
     extra = 1
-    exclude = ['ent_date', 'ent_id', 'upd_date', 'upd_id', 'upd_cnt']
 
 
 # 見積テーブル
@@ -32,13 +33,14 @@ class TQuotation(admin.ModelAdmin):
     # 一覧項目
     list_display = ('t_company_id', 'contract_date_from', 'contract_date_to')
     # 検索項目
-    search_fields = ['t_company_id']
+    search_fields = ['t_company_id__company_name__icontains']
     list_filter = ['t_company_id']
 
+    #inlines
     inlines = [TQuotationItemTable]
 
+    #inlineテーブルの更新
     def save_formset(self, request, form, formset, change):
-        print("*** save_formset ****" + str(formset))
         instances = formset.save(commit=False)
         for obj in instances:
             # 編集不可項目の設定
@@ -46,8 +48,8 @@ class TQuotation(admin.ModelAdmin):
             obj.save()
         formset.save_m2m()
 
+    #メインテーブルの更新
     def save_model(self, request, obj, form, change):
-        print("*** save_model ****" + str(change))
         """
         save_model関数のオーバライド
         """
@@ -55,7 +57,6 @@ class TQuotation(admin.ModelAdmin):
         obj = set_not_editable_item(request, obj)
         # 登録、更新
         super().save_model(request, obj, form, change)
-
 
 
 admin.site.register(t_quotation, TQuotation)

@@ -18,6 +18,39 @@ class t_company(models.Model):
     def __str__(self):
         return self.company_name
 
+    def get_tel_fax(self):
+        if self.tel and self.fax:
+            return "TEL:  " + self.tel + "        FAX:  " + self.fax
+        elif self.tel:
+            return "TEL:  " + self.tel + "        FAX:  -"
+        elif self.fax:
+            return "TEL:  - " + "        FAX:  " + self.fax
+        else:
+            return "TEL: - FAX: -"
+
+    def get_address1(self):
+        if self.address1:
+            return self.address1
+        else:
+            return ""
+
+    def get_address2(self):
+        if self.address2:
+            return self.address2
+        else:
+            return ""
+
+    def get_full_name(self):
+        if self.fname and self.lname:
+            return self.fname + " " + self.lname
+        elif self.fname:
+            return self.fname
+        elif self.lname:
+            return self.lname
+        else:
+            return ""
+
+
     t_company_id = models.AutoField(db_column="t_company_id", verbose_name="会社ID", primary_key=True, null=False, blank=False, editable=False, )
     company_type = models.CharField(db_column="company_type", verbose_name="会社区分", max_length=2, null=False, blank=False, default="OT", choices=COMPANY_TYPE_CHOICES, )
     company_name = models.CharField(db_column="company_name", verbose_name="会社名称", max_length=150, null=False, blank=False, )
@@ -278,6 +311,12 @@ class t_workplace(models.Model):
 
     def __str__(self):
         return self.t_company_id.company_name + " " + self.workplace_name
+
+    def get_workplace_name(self):
+        return self.workplace_name
+
+    def get_workplace_address(self):
+        return self.address1+ " " + self.address2
 
     t_workplace_id = models.AutoField(db_column="t_workplace_id", verbose_name="就業場所ID", primary_key=True, null=False, blank=False, editable=False, )
     t_company_id = models.ForeignKey(t_company, on_delete=models.PROTECT, db_column="t_company_id", verbose_name="会社ID", null=False, blank=False, )

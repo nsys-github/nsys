@@ -149,6 +149,7 @@ class t_contract_item_common(models.Model):
     man_month = models.DecimalField(db_column="man_month", verbose_name="工数(人月)", max_digits=7, decimal_places=3, null=True, blank=True, )
     tax_type = models.CharField(db_column="tax_type", verbose_name="税区分", max_length=1, null=True, blank=True, choices=TAX_TYPE_CHOICES, )
     tax_rate = models.DecimalField(db_column="tax_rate", verbose_name="税率", max_digits=4, decimal_places=3, null=True, blank=True, )
+    unitprice_exclude_tax = models.DecimalField(db_column="unitprice_exclude_tax", verbose_name="契約単価(税抜)", max_digits=13, decimal_places=3, null=True, blank=True, )
     contract_exclude_tax = models.DecimalField(db_column="contract_exclude_tax", verbose_name="契約額(税抜)", max_digits=13, decimal_places=3, null=True, blank=True, )
     contract_tax_amount = models.DecimalField(db_column="contract_tax_amount", verbose_name="契約額(税額)", max_digits=13, decimal_places=3, null=True, blank=True, )
     contract_amount = models.DecimalField(db_column="contract_amount", verbose_name="契約額(合計)", max_digits=13, decimal_places=3, null=True, blank=True, )
@@ -156,11 +157,12 @@ class t_contract_item_common(models.Model):
     unit_prices_plus = models.DecimalField(db_column="unit_prices_plus", verbose_name="精算単価_超過時", max_digits=13, decimal_places=3, null=True, blank=True, )
     notes = models.TextField(db_column="notes", verbose_name="備考", null=True, blank=True, )
     delete_flg = models.BooleanField(db_column="delete_flg", verbose_name="削除フラグ", null=False, blank=False, default=False, )
-    ent_date = models.DateTimeField(db_column="ent_date", verbose_name="登録日時", null=False, blank=False,  )
-    ent_id = models.CharField(db_column="ent_id", verbose_name="登録者", max_length=6, null=False, blank=False, )
-    upd_date = models.DateTimeField(db_column="upd_date", verbose_name="更新日時", null=True, blank=True, )
-    upd_id = models.CharField(db_column="upd_id", verbose_name="更新者", max_length=6, null=True, blank=True, )
-    upd_cnt = models.IntegerField(db_column="upd_cnt", verbose_name="更新回数", null=False, blank=False, default=0, )
+    ent_date = models.DateTimeField(db_column="ent_date", verbose_name="登録日時", null=False, blank=False, editable=False, )
+    ent_id = models.CharField(db_column="ent_id", verbose_name="登録者", max_length=6, null=False, blank=False, editable=False, )
+    upd_date = models.DateTimeField(db_column="upd_date", verbose_name="更新日時", null=True, blank=True, editable=False, )
+    upd_id = models.CharField(db_column="upd_id", verbose_name="更新者", max_length=6, null=True, blank=True, editable=False, )
+    upd_cnt = models.IntegerField(db_column="upd_cnt", verbose_name="更新回数", null=False, blank=False, default=0, editable=False, )
+
 
 
 #契約共通テーブル_継承テーブル
